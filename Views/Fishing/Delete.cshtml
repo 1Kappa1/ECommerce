@@ -30,9 +30,9 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete">
+    <form asp-action="Delete" asp-route-id="@Model.Nome" enctype="multipart/form-data">
         <input type="hidden" asp-for="Nome" />
-        <input type="submit" value="Elimina" class="btn btn-danger" /> |
+        <input type="submit" value="Elimina" class="btn btn-danger"/> |
         <a asp-action="Index"><button class="btn btn-primary" type="button">Back to List</button></a>
     </form>
 </div>

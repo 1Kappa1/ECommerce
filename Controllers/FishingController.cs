@@ -98,12 +98,12 @@ namespace capanna.alessandro._5H.prenota.Controllers
                 string fileName = FileUpload.FileName;
                 string fileExtension = Path.GetExtension(FileUpload.FileName);
 
-                fishing.Img = fileName + fileExtension;
+                fishing.Img = fileName;
 
                 // Save to the database here
                 _context.Add(fishing);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Secret_Index));
+                return RedirectToAction(nameof(Index));
             }
             return View(fishing);
         }
@@ -197,9 +197,10 @@ namespace capanna.alessandro._5H.prenota.Controllers
         // POST: Fishing/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        public async Task<IActionResult> DeleteConfirmed(string? id)
         {
-            var fishing = await _context.Oggetti.FindAsync(id);
+             var fishing = await _context.Oggetti
+                .FirstOrDefaultAsync(m => m.Nome == id);
             if (fishing != null)
             {
                 // Elimina il file associato all'oggetto
