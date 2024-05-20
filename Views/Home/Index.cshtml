@@ -1,0 +1,97 @@
+﻿@model dataBase
+@{
+    ViewData["Title"] = "Home Page";
+    
+}
+<style>
+
+</style>
+<div class="text-center">
+    @if(User.Identity!.Name != null){
+        <h1 class="display-4">Hii @User.Identity!.Name!</h1>
+    }
+    else
+    {
+        <h1 class="display-4">Welcome</h1>
+    }
+    <p>In this site you will find a lot of item for fishing and for mantaining the fish, like acquarium and some other things</p>
+    <center>
+        <div id="carouselExampleCaptions" style="width: 600px; height:60%" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+            <!-- Carousel indicators -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+
+            <!-- Carousel inner -->
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="height: 400px;"> <!-- Set a fixed height here -->
+                <img src="canna_carosello.jpg" class="d-block w-100" alt="Canna da pesca" style="object-fit: cover;"> <!-- Use object-fit property -->
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 style="text-shadow: 6px 6px 10px hsl(0, 0%, 0%); color: white;">King fisher</h5>
+                    <p style="text-shadow: 6px 6px 10px #000000; color: white;">The king of all the fishing road in the world</p>
+                </div>
+                </div>
+                <div class="carousel-item" style="height: 400px;"> <!-- Set a fixed height here -->
+                <img src="carosello_endroad.jpg" class="d-block w-100" alt="La punta di una canna da pesca" style="object-fit: cover;"> <!-- Use object-fit property -->
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 style="text-shadow: 6px 6px 10px #000000; color: white;">Peso thunder</h5>
+                    <p style="text-shadow: 6px 6px 10px #000000; color: white;">I migliori pesi per la pesca a fondo li abbiamo noi!</p>
+                </div>
+                </div>
+                <div class="carousel-item" style="height: 400px;"> <!-- Set a fixed height here -->
+                <img src="extreme_fishing_carosello.jpg" class="d-block w-100" alt="Pesca al luccio" style="object-fit: cover; top:50%"> <!-- Use object-fit property -->
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 style="text-shadow: 6px 6px 10px #000000; color: white;">The fisherman</h5>
+                    <p style="text-shadow: 6px 6px 10px #000000; color: white;">Il migliore pescatore di lucci, utilizza i nostri prodotti</p>
+                </div>
+                </div>
+            </div>
+
+            <!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            </div>
+    </center> 
+
+    @if(User.Identity!.Name! == null){
+        <div id="myAlert"  class="alert alert-info" style="position: fixed; bottom: 20px;right: 20px; width : 500px; background-color: blue;" role="alert">
+            <span class="mx-auto" style="color:white; font-weight:bold;">Hii, welcome to our website</span><br>
+            <button  class="btn btn-primary" onclick="Loggami()"><span class="mx-auto">Login Now</span></button>
+            <button  class="btn btn-primary" onclick="Registrami()"><span class="mx-auto">Register Now</span></button>
+        </div>
+        }
+
+    <script>
+        // Selezioniamo l'alert da far scomparire
+        var alert = document.getElementById("myAlert");
+
+        // Hide the alert after 3 seconds
+        setTimeout(function() 
+        {
+            alert.classList.add("fade");
+            alert.style.display = "none";
+        }, 3000);
+
+
+        function Loggami()
+        {
+            window.location.href = "@Url.Action("Login", "Account")";
+        }
+
+        function Registrami()
+        {
+            window.location.href = "@Url.Action("Register","Account")"
+        }
+    </script>
+</div>
+
+
+

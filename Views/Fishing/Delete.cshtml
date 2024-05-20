@@ -1,0 +1,38 @@
+@model capanna.alessandro._5H.prenota.Models.Fishing
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Rimuovi</h1>
+
+<h3>Sicuro di voler rimuovere l'articolo?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Descrizione)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Descrizione)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Prezzo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Prezzo)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Nome" />
+        <input type="submit" value="Elimina" class="btn btn-danger" /> |
+        <a asp-action="Index"><button class="btn btn-primary" type="button">Back to List</button></a>
+    </form>
+</div>

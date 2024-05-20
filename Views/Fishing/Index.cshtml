@@ -1,0 +1,38 @@
+@model List<Fishing>
+
+@{
+    ViewData["Title"] = "Market";
+}
+
+<h1>Market</h1>
+<style>
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 20px;
+    }
+
+    .grid-item {
+        justify-self: center;
+        align-self: center;
+        text-align: center;
+    }
+
+    .grid-item img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+<div class="product-grid">
+    @foreach (var product in Model)
+    {
+        <div class="grid-item">
+            <img src="@product.Img" alt="@product.Nome" />
+            <h2>@product.Nome</h2>
+            <h6>Prezzo: @product.Prezzo</h6>
+            <p>@product.Descrizione</p>
+            <a asp-action="Details" asp-route-id="@product.Nome">Dettagli</a>
+        </div>
+    }
+</div>

@@ -1,0 +1,46 @@
+@using Microsoft.AspNetCore.Identity;
+@using capanna.alessandro._5H.prenota.Controllers;
+@inject SignInManager<Utente> signInManager
+
+<ul class="navbar-nav">
+    @if (signInManager.IsSignedIn(User))
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                @User.Identity!.Name!
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                    <a class="dropdown-item" asp-action="Logout" asp-controller="Account">
+                        Logout
+                    </a>
+                </li>
+                <li>
+                    <!------------------------------------------------------------------------------>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
+                            Delete
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item text-danger font-weight-bold" asp-action="Delete" asp-controller="Account">
+                                    Sure?
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!------------------------------------------------------------------------------>
+                </li>
+            </ul>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+        </li>
+    }
+</ul>
