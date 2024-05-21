@@ -62,13 +62,14 @@
             <p>In this site you will find a lot of item for fishing and for mantaining the fish, like acquarium and some other things</p>
     </center> 
 
-    @if(User.Identity!.Name! == null){
+    @if(User.Identity!.Name! == null)
+    {
         <div id="myAlert"  class="alert alert-info" style="position: fixed; bottom: 20px;right: 20px; width : 500px; background-color: black;" role="alert">
             <span class="mx-auto" style="color:white; font-weight:bold;">Hii, welcome to our website</span><br>
             <button  class="btn btn-outline-light" onclick="Loggami()"><span class="mx-auto">Login Now</span></button>
             <button  class="btn btn-outline-light" onclick="Registrami()"><span class="mx-auto">Register Now</span></button>
         </div>
-        }
+    }
 
     <script>
         // Selezioniamo l'alert da far scomparire
