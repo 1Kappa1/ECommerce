@@ -7,14 +7,14 @@
 
 </style>
 <div class="text-center">
-    @if(User.Identity!.Name != null){
-        <h1 class="display-4">Hii @User.Identity!.Name!</h1>
+    @if(User.Identity!.Name != null)
+    {
+        <h1 class="display-4" style="font-size: xx-large;">Hi @User.Identity!.Name!</h1>
     }
     else
     {
-        <h1 class="display-4">Welcome</h1>
+        <h1 class="display-4" style="font-size: xxxx-large; font-weight:bold">Welcome</h1>
     }
-    <p>In this site you will find a lot of item for fishing and for mantaining the fish, like acquarium and some other things</p>
     <center>
         <div id="carouselExampleCaptions" style="width: 600px; height:60%" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
             <!-- Carousel indicators -->
@@ -59,10 +59,11 @@
                 <span class="visually-hidden">Next</span>
             </button>
             </div>
+            <p>In this site you will find a lot of item for fishing and for mantaining the fish, like acquarium and some other things</p>
     </center> 
 
     @if(User.Identity!.Name! == null){
-        <div id="myAlert"  class="alert alert-info" style="position: fixed; bottom: 20px;right: 20px; width : 500px; background-color: blue;" role="alert">
+        <div id="myAlert"  class="alert alert-info" style="position: fixed; bottom: 20px;right: 20px; width : 500px; background-color: ;" role="alert">
             <span class="mx-auto" style="color:white; font-weight:bold;">Hii, welcome to our website</span><br>
             <button  class="btn btn-primary" onclick="Loggami()"><span class="mx-auto">Login Now</span></button>
             <button  class="btn btn-primary" onclick="Registrami()"><span class="mx-auto">Register Now</span></button>
@@ -78,7 +79,7 @@
         {
             alert.classList.add("fade");
             alert.style.display = "none";
-        }, 3000);
+        }, 8000);
 
 
         function Loggami()

@@ -28,10 +28,6 @@ namespace capanna.alessandro._5H.prenota.Controllers
         // GET: Fishing
         public async Task<IActionResult> Index()
         {
-            if (User.Identity!.Name! == "Kappa" || User.Identity!.Name == "MConti")
-            {
-                return RedirectToAction(nameof(Secret_Index));
-            }
             return View(await _context.Oggetti.ToListAsync());
         }
 
