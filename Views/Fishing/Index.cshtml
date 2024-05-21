@@ -30,9 +30,10 @@
         <div class="grid-item">
             <img src="@product.Img" alt="@product.Nome" />
             <h2>@product.Nome</h2>
-            <h6>Prezzo: @product.Prezzo</h6>
+            <h6>Prezzo: @product.Prezzo€</h6>
             <p>@product.Descrizione</p>
-            <a asp-action="Details" asp-route-id="@product.Nome">Dettagli</a>
+            <a asp-action="Details" asp-route-id="@product.Nome">Dettagli</a><br>
+            <button class="btn btn-primary" asp-action="Add" asp-controller="Cart" asp-route-id="@product.Nome">Aggiungi al carrello</button>
         </div>
     }
 </div>

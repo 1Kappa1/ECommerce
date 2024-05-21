@@ -25,6 +25,7 @@ public class dataBase : IdentityDbContext<Utente>
     }
     
     public DbSet<Utente> Utenti {get;set;}
-    public DbSet<Fishing> Oggetti{get;set;}    
+    public DbSet<Fishing> Oggetti{get;set;} 
+    public DbSet<Carrello> Cart{get;set;}  
 }
 

@@ -1,12 +1,21 @@
 @using Microsoft.AspNetCore.Identity;
 @using capanna.alessandro._5H.prenota.Controllers;
 @inject SignInManager<Utente> signInManager
+<style>
+    .btn-hover {
+        transition: all 0.5s ease;
+    }
 
+        .btn-hover:hover {
+        color: #000;
+        transform: scale(1.2);
+    }
+</style>
 <ul class="navbar-nav">
     @if (signInManager.IsSignedIn(User))
     {
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" style="font-size: x-large;" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+            <a class="nav-link dropdown-toggle btn-lg btn-hover" style="font-size: x-large;" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
                 @User.Identity!.Name!
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -37,10 +46,10 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" style="font-size: x-large;" asp-controller="Account" asp-action="Register">Register</a>
+            <a class="nav-link text-dark btn-lg btn-hover" asp-area="" style="font-size: x-large;" asp-controller="Account" asp-action="Register">Register</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" style="font-size: x-large;" asp-controller="Account" asp-action="Login">Login</a>
+            <a class="nav-link text-dark btn-lg btn-hover" asp-area="" style="font-size: x-large;" asp-controller="Account" asp-action="Login">Login</a>
         </li>
     }
 </ul>
