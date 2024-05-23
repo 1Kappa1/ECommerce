@@ -1,0 +1,16 @@
+@model List<Carrello>
+
+@{
+    ViewData["Title"] = "Carrello";
+}
+
+<h1>Il tuo Carrello</h1>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            @item.Nome_Prodotto (@item.NumeroDiOggetti)
+        </li>
+    }
+</ul>

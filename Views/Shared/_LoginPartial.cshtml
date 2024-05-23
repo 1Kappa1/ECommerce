@@ -15,6 +15,11 @@
     @if (signInManager.IsSignedIn(User))
     {
         <li class="nav-item dropdown">
+            <ul>
+                <a class="navbar-brand" asp-area="" asp-controller="Carrello" asp-action="Index">
+                    <img style="width: 100px; height: 100px" src="Carrello.png" alt="Carrello">
+                </a>
+            </ul>
             <a class="nav-link dropdown-toggle btn-lg btn-hover" style="font-size: x-large;" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
                 @User.Identity!.Name!
             </a>

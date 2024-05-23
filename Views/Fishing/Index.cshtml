@@ -49,12 +49,12 @@
       <h6>Prezzo: @product.Prezzo€</h6>
       <p>@product.Descrizione</p>
       <a asp-action="Details" asp-route-id="@product.Nome">Dettagli</a><br>
-      <form asp-action="Add" asp-controller="Carrello">
+      <form asp-action="AddMultiple" asp-controller="Carrello" asp-route-id="@product.Nome">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <button type="button" class="btn btn-primary" onclick="decrementQuantity()">-</button>
           </div>
-          <input type="text" class="form-control text-center" value="0" id="quantity-@product.Nome" name="quantity">
+          <input type="text" class="form-control text-center" value="0" id="quantity-@product.Nome" name="quantities[@product.Nome]" />
           <div class="input-group-append">
             <button type="button" class="btn btn-primary" onclick="incrementQuantity('quantity-@product.Nome')">+</button>
           </div>
