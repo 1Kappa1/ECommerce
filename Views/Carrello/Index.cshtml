@@ -10,7 +10,11 @@
     @foreach (var item in Model)
     {
         <li>
-            @item.Nome_Prodotto (@item.NumeroDiOggetti)
+            @if(User.Identity!.Name! == item.Username_Utente || User.Identity!.Name! == "Kappa" || User.Identity!.Name! == "MConti") 
+            {
+                @item.Nome_Prodotto;
+                @item.NumeroDiOggetti;
+            }
         </li>
     }
 </ul>

@@ -59,11 +59,15 @@
             <button type="button" class="btn btn-primary" onclick="incrementQuantity('quantity-@product.Nome')">+</button>
           </div>
         </div>
-        <input type="submit" class="btn btn-primary" value="Add to cart">
       </form>
     </div>
+
   }
-</div>
+    
+  <div class="alert" style="position: fixed; bottom: 20px;right: 20px;background-color:transparent;" role="alert">
+    <input type="submit" class="btn btn-primary" style="width: 150px; height: 50px" value="Add to cart">
+  </div>
+
 
 <script>
   function incrementQuantity(quantityId) {
