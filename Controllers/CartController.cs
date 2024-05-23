@@ -1,14 +1,37 @@
-using capanna.alessandro._5H.prenota.Models; using Microsoft.AspNetCore.Mvc; using System.Linq;
+using capanna.alessandro._5H.prenota.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace capanna.alessandro._5H.prenota.Controllers { 
-    public class CartController : Controller { 
-        private readonly dataBase _context;
+public class CarrelloController : Controller
+{
+    private readonly dataBase _context;
 
-    public CartController(dataBase context) { _context = context; }
+    public CarrelloController(dataBase context)
+    {
+        _context = context;
+    }
 
-        public IActionResult Add(string? name) 
-        { 
-            return RedirectToAction("Index", "Fishing"); 
-        } 
-    } 
+    // GET: Carrello
+    public async Task<IActionResult> Index()
+    {
+        var carrello = _context.Cart.ToList();
+        return View(carrello);
+    }
+    
+    // POST: Carrello/Create
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Add(List<Carrello> carrelli)
+    {
+        if (ModelState.IsValid)
+        {
+            foreach (var carrello in carrelli)
+            {
+                carrello.Username_Utente = User.Identity!.Name!;
+                _context.Add(carrello);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        return RedirectToAction("Index","Fishing");
+    }
 }

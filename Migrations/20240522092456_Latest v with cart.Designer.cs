@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace capanna.alessandro._5H.prenota.Migrations
 {
     [DbContext(typeof(dataBase))]
-    partial class dataBaseModelSnapshot : ModelSnapshot
+    [Migration("20240522092456_Latest v with cart")]
+    partial class Latestvwithcart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
@@ -151,12 +154,14 @@ namespace capanna.alessandro._5H.prenota.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Nome_Prodotto")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("NumeroDiOggetti")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Username_Utente")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

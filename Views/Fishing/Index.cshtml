@@ -6,6 +6,22 @@
 
 <h1>Market</h1>
 <style>
+    .counter {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.counter input {
+  width: 3rem;
+  text-align: center;
+  margin: 0 0.5rem;
+}
+
+.counter button {
+  width: 2rem;
+  height: 2rem;
+}
     .product-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -25,15 +41,47 @@
 </style>
 
 <div class="product-grid">
-    @foreach (var product in Model)
-    {
-        <div class="grid-item">
-            <img src="@product.Img" alt="@product.Nome" />
-            <h2>@product.Nome</h2>
-            <h6>Prezzo: @product.Prezzo€</h6>
-            <p>@product.Descrizione</p>
-            <a asp-action="Details" asp-route-id="@product.Nome">Dettagli</a><br>
-            <button class="btn btn-primary" asp-action="Add" asp-controller="Cart" asp-route-id="@product.Nome">Aggiungi al carrello</button>
+  @foreach (var product in Model)
+  {
+    <div class="grid-item">
+      <img src="@product.Img" alt="@product.Nome" />
+      <h2>@product.Nome</h2>
+      <h6>Prezzo: @product.Prezzo€</h6>
+      <p>@product.Descrizione</p>
+      <a asp-action="Details" asp-route-id="@product.Nome">Dettagli</a><br>
+      <form asp-action="Add" asp-controller="Carrello">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <button type="button" class="btn btn-primary" onclick="decrementQuantity()">-</button>
+          </div>
+          <input type="text" class="form-control text-center" value="0" id="quantity-@product.Nome" name="quantity">
+          <div class="input-group-append">
+            <button type="button" class="btn btn-primary" onclick="incrementQuantity('quantity-@product.Nome')">+</button>
+          </div>
         </div>
-    }
+        <input type="submit" class="btn btn-primary" value="Add to cart">
+      </form>
+    </div>
+  }
 </div>
+
+<script>
+  function incrementQuantity(quantityId) {
+    var quantityInput = document.getElementById(quantityId);
+    var currentQuantity = parseInt(quantityInput.value);
+    if (currentQuantity < 999) {
+      quantityInput.value = currentQuantity + 1;
+    }
+  }
+
+  function decrementQuantity() {
+    var quantityInputs = document.getElementsByClassName('form-control text-center');
+    for (var i = 0; i < quantityInputs.length; i++) {
+      var quantityInput = quantityInputs[i];
+      var currentQuantity = parseInt(quantityInput.value);
+      if (currentQuantity > 0) {
+        quantityInput.value = currentQuantity - 1;
+      }
+    }
+  }
+</script>

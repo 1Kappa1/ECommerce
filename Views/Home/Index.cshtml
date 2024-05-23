@@ -9,11 +9,11 @@
 <div class="text-center">
     @if(User.Identity!.Name != null)
     {
-        <h1 class="display-4" style="font-size: xx-large;">Hi @User.Identity!.Name!</h1>
+        <h1 class="display-4" style="font-weight:bold">Hi @User.Identity!.Name!</h1>
     }
     else
     {
-        <h1 class="display-4" style="font-size: xxxx-large; font-weight:bold">Welcome</h1>
+        <h1 class="display-4" style="font-weight:bold">Welcome</h1>
     }
     <center>
         <div id="carouselExampleCaptions" style="width: 600px; height:60%" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
@@ -41,7 +41,7 @@
                 </div>
                 </div>
                 <div class="carousel-item" style="height: 400px;"> <!-- Set a fixed height here -->
-                <img src="extreme_fishing_carosello.jpg" class="d-block w-100" alt="Pesca al luccio" style="object-fit: cover; top:50%"> <!-- Use object-fit property -->
+                <img src="thepescatore.jpg" class="d-block w-100" alt="Pesca al luccio" style="object-fit: cover; top:50%, position: fixed"> <!-- Use object-fit property -->
                 <div class="carousel-caption d-none d-md-block">
                     <h5 style="text-shadow: 6px 6px 10px #000000; color: white;">The fisherman</h5>
                     <p style="text-shadow: 6px 6px 10px #000000; color: white;">Il migliore pescatore di lucci, utilizza i nostri prodotti</p>
