@@ -1,5 +1,6 @@
 using capanna.alessandro._5H.prenota.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 public class CarrelloController : Controller
@@ -18,42 +19,85 @@ public class CarrelloController : Controller
         return View(carrello);
     }
     
+    [HttpPost]
+public async Task<IActionResult> RemoveItem(string id)
+{
+    try
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return BadRequest("Id is required");
+        }
+
+        var fishing = await _context.Cart
+            .FirstOrDefaultAsync(m => m.Nome_Prodotto == id);
+
+        if (fishing == null)
+        {
+            return NotFound("Item not found");
+        }
+
+        _context.Cart.Remove(fishing);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("Index");
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, "Error removing item: " + ex.Message);
+    }
+}
+
     // POST: Carrello/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-public async Task<IActionResult> AddMultiple(Dictionary<string, int> quantities)
-{
-    if (quantities == null || quantities.Count == 0)
+    public async Task<IActionResult> AddMultiple(Dictionary<string, int> quantities)
     {
-        return RedirectToAction("Index", "Fishing");
-    }
-
-    var carrelli = new List<Carrello>();
-    foreach (var quantity in quantities)
-    {
-        var prodotto = _context.Oggetti.FirstOrDefault(p => p.Nome == quantity.Key);
-        if (prodotto != null)
+        if(User.Identity!.Name! != null)
         {
-            var carrello = new Carrello
+            if (quantities == null || quantities.Count == 0 )
             {
-                NumeroDiOggetti = quantity.Value,
-                Username_Utente = User.Identity!.Name!,
-                Nome_Prodotto = prodotto.Nome
-            };
-            carrelli.Add(carrello);
-        }
-    }
+                return RedirectToAction("Index", "Fishing");
+            }
+            var carrelli = new List<Carrello>();
+            foreach (var quantity in quantities)
+            {
+                var prodotto = _context.Oggetti.FirstOrDefault(p => p.Nome == quantity.Key);
+                var carrello = _context.Cart.FirstOrDefault(c => c.Nome_Prodotto == prodotto.Nome && c.Username_Utente == User.Identity!.Name!);
+                if (prodotto != null && quantity.Value > 0)
+                {
+                    if(!_context.Cart.Any(c => c.Nome_Prodotto == prodotto.Nome && c.Username_Utente == User.Identity!.Name!))
+                    {
+                        carrello = new Carrello
+                        {
+                            NumeroDiOggetti = quantity.Value,
+                            Username_Utente = User.Identity!.Name!,
+                            Nome_Prodotto = prodotto.Nome
+                        };
+                        carrelli.Add(carrello);
+                    }
+                    else
+                    {
+                        carrello.NumeroDiOggetti += quantity.Value;
+                    }
+                }
+            }
 
-    if (ModelState.IsValid)
-    {
-        foreach (var carrello in carrelli)
+            if (ModelState.IsValid)
+            {
+                foreach (var carrello in carrelli)
+                {
+                    _context.Add(carrello);
+                }
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index", "Fishing");
+        }
+        else
         {
-            _context.Add(carrello);
+            return RedirectToAction("Login", "Account");
         }
-        await _context.SaveChangesAsync();
-        return RedirectToAction("Index");
     }
-
-    return RedirectToAction("Index", "Fishing");
-}
 }

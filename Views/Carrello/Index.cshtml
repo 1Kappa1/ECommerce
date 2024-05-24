@@ -6,15 +6,26 @@
 
 <h1>Il tuo Carrello</h1>
 
-<ul>
+<table>
     @foreach (var item in Model)
     {
-        <li>
+        <tr>
+            
             @if(User.Identity!.Name! == item.Username_Utente || User.Identity!.Name! == "Kappa" || User.Identity!.Name! == "MConti") 
             {
-                @item.Nome_Prodotto;
-                @item.NumeroDiOggetti;
+                <td>
+                    @item.Nome_Prodotto;
+                </td>
+                <td>
+                    @item.NumeroDiOggetti;
+                </td>
             }
-        </li>
+            
+            <td>
+            <form asp-action="RemoveItem" method="post" asp-route-id="@item.Nome_Prodotto">
+                <input class="btn btn-primary" type="submit" value="Remove">
+            </form>
+            </td>
+        </tr>
     }
-</ul>
+</table>

@@ -39,7 +39,7 @@
         height: auto;
     }
 </style>
-
+<form asp-action="AddMultiple" asp-controller="Carrello">
 <div class="product-grid">
   @foreach (var product in Model)
   {
@@ -49,7 +49,7 @@
       <h6>Prezzo: @product.Prezzo€</h6>
       <p>@product.Descrizione</p>
       <a asp-action="Details" asp-route-id="@product.Nome">Dettagli</a><br>
-      <form asp-action="AddMultiple" asp-controller="Carrello" asp-route-id="@product.Nome">
+      
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <button type="button" class="btn btn-primary" onclick="decrementQuantity()">-</button>
@@ -58,15 +58,14 @@
           <div class="input-group-append">
             <button type="button" class="btn btn-primary" onclick="incrementQuantity('quantity-@product.Nome')">+</button>
           </div>
+          <input type="text" class="d-none" value="@product.Nome"/>
         </div>
-      </form>
+        <div class="alert" style="position: fixed; bottom: 20px;right: 20px;background-color:transparent;" role="alert">
+          <input type="submit" class="btn btn-primary" style="width: 150px; height: 50px" value="Add to cart">
+        </div>
     </div>
-
   }
-    
-  <div class="alert" style="position: fixed; bottom: 20px;right: 20px;background-color:transparent;" role="alert">
-    <input type="submit" class="btn btn-primary" style="width: 150px; height: 50px" value="Add to cart">
-  </div>
+   </form>
 
 
 <script>
