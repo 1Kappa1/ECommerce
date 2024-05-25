@@ -100,4 +100,52 @@ public async Task<IActionResult> RemoveItem(string id)
             return RedirectToAction("Login", "Account");
         }
     }
+
+
+    public async Task<IActionResult> RemoveMultiple(Dictionary<string, int> quantities)
+{
+    if(User.Identity!.Name! != null)
+    {
+        if (quantities == null || quantities.Count == 0 )
+        {
+            return RedirectToAction("Index", "Fishing");
+        }
+
+        //Caricamento della lista carrelli
+        var carrelli = new List<Carrello>();
+
+        foreach (var quantity in quantities)
+        {
+            
+            var prodotto = _context.Oggetti.FirstOrDefault(p => p.Nome == quantity.Key);
+            var carrello = _context.Cart.FirstOrDefault(c => c.Nome_Prodotto == prodotto.Nome && c.Username_Utente == User.Identity!.Name!);
+            if (prodotto != null)
+            {
+                Console.WriteLine(quantity);
+                if(carrello != null)
+                {
+                    // Se il prodotto esiste nel carrello, modifica la quantità
+                    carrello.NumeroDiOggetti = quantity.Value;
+                }
+            }
+        }
+
+        if (ModelState.IsValid)
+        {
+            foreach (var carrello in carrelli)
+            {
+                _context.Cart.Update(carrello);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        return RedirectToAction("Index", "Carrello");
+    }
+    else
+    {
+        return RedirectToAction("Login", "Account");
+    }
+}
+
 }

@@ -52,9 +52,9 @@
       
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <button type="button" class="btn btn-primary" onclick="decrementQuantity()">-</button>
+            <button type="button" class="btn btn-primary" onclick="decrementQuantity('form-control text-center @product.Nome')">-</button>
           </div>
-          <input type="text" class="form-control text-center" value="0" id="quantity-@product.Nome" name="quantities[@product.Nome]" />
+          <input type="text" class="form-control text-center @product.Nome" value="0" id="quantity-@product.Nome" name="quantities[@product.Nome]" />
           <div class="input-group-append">
             <button type="button" class="btn btn-primary" onclick="incrementQuantity('quantity-@product.Nome')">+</button>
           </div>
@@ -77,8 +77,8 @@
     }
   }
 
-  function decrementQuantity() {
-    var quantityInputs = document.getElementsByClassName('form-control text-center');
+  function decrementQuantity(quantityclass) {
+    var quantityInputs = document.getElementsByClassName(quantityclass);
     for (var i = 0; i < quantityInputs.length; i++) {
       var quantityInput = quantityInputs[i];
       var currentQuantity = parseInt(quantityInput.value);
