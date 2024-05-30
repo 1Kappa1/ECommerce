@@ -102,32 +102,39 @@ public async Task<IActionResult> RemoveItem(string id)
     }
 
 
+    [HttpPost]
     public async Task<IActionResult> RemoveMultiple(Dictionary<string, int> quantities)
 {
-    if(User.Identity!.Name! != null)
+    if (User.Identity?.Name != null)
     {
-        if (quantities == null || quantities.Count == 0 )
+        if (quantities == null || quantities.Count == 0)
         {
             return RedirectToAction("Index", "Fishing");
         }
 
-        //Caricamento della lista carrelli
+        // Caricamento della lista carrelli
         var carrelli = new List<Carrello>();
 
         foreach (var quantity in quantities)
         {
-            
             var prodotto = _context.Oggetti.FirstOrDefault(p => p.Nome == quantity.Key);
-            var carrello = _context.Cart.FirstOrDefault(c => c.Nome_Prodotto == prodotto.Nome && c.Username_Utente == User.Identity!.Name!);
-            if (prodotto != null)
+            if (prodotto == null)
             {
-                Console.WriteLine(quantity);
-                if(carrello != null)
-                {
-                    // Se il prodotto esiste nel carrello, modifica la quantità
-                    carrello.NumeroDiOggetti = quantity.Value;
-                }
+                Console.WriteLine($"Prodotto non trovato: {quantity.Key}");
+                continue; // Prosegui con il prossimo elemento se il prodotto non è trovato
             }
+
+            var carrello = _context.Cart.FirstOrDefault(c => c.Nome_Prodotto == prodotto.Nome && c.Username_Utente == User.Identity.Name);
+            if (carrello == null)
+            {
+                Console.WriteLine($"Carrello non trovato per il prodotto: {prodotto.Nome}");
+                continue; // Prosegui con il prossimo elemento se il carrello non è trovato
+            }
+
+            // Se il prodotto esiste nel carrello, modifica la quantità
+            carrello.NumeroDiOggetti = quantity.Value;
+            // Aggiungi il carrello modificato alla lista
+            carrelli.Add(carrello);
         }
 
         if (ModelState.IsValid)
@@ -147,5 +154,22 @@ public async Task<IActionResult> RemoveItem(string id)
         return RedirectToAction("Login", "Account");
     }
 }
-
+[HttpPost]
+public async Task<IActionResult> Buy()
+    {
+        try
+        {
+            var username = User.Identity.Name;
+            var allItems = await _context.Cart
+                .Where(c => c.Username_Utente == username)
+                .ToListAsync();
+            _context.Cart.RemoveRange(allItems);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Error removing all items: " + ex.Message);
+        }
+    }
 }

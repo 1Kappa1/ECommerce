@@ -6,49 +6,52 @@
 
 <h1 style="font-size: 90px;">Il tuo Carrello</h1> <hr><br>
 
-<table>
-    @foreach (var item in Model)
-    {
-        <tr>
-            
-            @if(User.Identity!.Name! == item.Username_Utente || User.Identity!.Name! == "Kappa" || User.Identity!.Name! == "MConti") 
-            {
-                <td>
-                    <h3>@item.Nome_Prodotto</h3>                           
-                </td>
-            }
-        </tr>
-        <table class="justify-content-end">
+<form asp-action="RemoveMultiple" asp-controller="Carrello" method="post">
+    <table>
+        @foreach (var item in Model)
+        {
             <tr>
-                    <form asp-action="RemoveMultiple" asp-controller="Carrello">
-                        <div class="product-grid">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <button type="button" class="btn btn-primary" onclick="decrementQuantity('form-control text-center @item.Nome_Prodotto')">-</button>
-                                </div>
-                                <input type="text" class="form-control text-center @item.Nome_Prodotto" value="@item.NumeroDiOggetti" id="quantity-@item.Nome_Prodotto" name="quantities[@item.Nome_Prodotto]" />
-                                <div class="input-group-append">
-                                        <button type="button" class="btn btn-primary" onclick="incrementQuantity('quantity-@item.Nome_Prodotto')">+</button>
-                                </div>
-                                    <input type="text" class="d-none" value="@item.Nome_Prodotto"/>
-                                 
-                                    <div class="alert d-none" style="position: fixed; bottom: 20px;left: 20px;background-color:transparent;" role="alert" id="Alert_save">
-                                        <input type="submit" class="btn btn-danger" style="width: 150px; height: 50px" value="Save Changes">
-                                    </div>
+                @if(User.Identity!.Name! == item.Username_Utente || User.Identity!.Name! == "Kappa" || User.Identity!.Name! == "MConti") 
+                {
+                    <td>
+                        <h3>@item.Nome_Prodotto</h3>                           
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td>
+                    <div class="product-grid">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-primary" onclick="decrementQuantity('quantity-@item.Nome_Prodotto')">-</button>
                             </div>
+                            <input type="text" class="form-control text-center" value="@item.NumeroDiOggetti" id="quantity-@item.Nome_Prodotto" name="quantities[@item.Nome_Prodotto]" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary" onclick="incrementQuantity('quantity-@item.Nome_Prodotto')">+</button>
+                            </div>
+                            <input type="hidden" name="NomeProdotto" value="@item.Nome_Prodotto"/>
                         </div>
-                    </form>
-                    <td>                    
-                    <form asp-action="RemoveItem" method="post" asp-route-id="@item.Nome_Prodotto">
+                    </div>
+                </td>
+                <td>
+                    <form asp-action="RemoveItem" method="post" asp-route-id="@item.Nome_Prodotto" class="inline-form">
                         <input class="btn btn-primary" type="submit" value="Remove">
                     </form>
-                    </td>
-
+                </td>
             </tr>
-        </table>
-        <hr>
-    }
-</table>
+        }
+    </table>
+    <div class="alert" style="position: fixed; bottom: 20px; left: 20px; background-color:transparent;" role="alert" id="Alert_save">
+        <input type="submit" class="btn btn-danger" style="width: 150px; height: 50px" value="Save Changes">
+    </div>
+</form>
+
+<form asp-action="Buy">
+    <div class="alert" style="position: fixed; bottom: 20px; right: 20px; background-color:transparent;" role="alert" id="Alert_buy">
+        <input type="submit" class="btn btn-primary" style="width: 150px; height: 50px" value="Acquista">
+    </div>
+</form>
+
 <script>
   function incrementQuantity(quantityId) {
     var quantityInput = document.getElementById(quantityId);
@@ -57,22 +60,16 @@
         quantityInput.value = currentQuantity + 1;
         var p = document.getElementById("Alert_save");
         p.classList.remove("d-none");
-        
-        
     }
   }
 
-  function decrementQuantity(quantityclass) {
-    var quantityInputs = document.getElementsByClassName(quantityclass);
-    for (var i = 0; i < quantityInputs.length; i++) {
-      var quantityInput = quantityInputs[i];
-      var currentQuantity = parseInt(quantityInput.value);
-      if (currentQuantity > 0) {
+  function decrementQuantity(quantityId) {
+    var quantityInput = document.getElementById(quantityId);
+    var currentQuantity = parseInt(quantityInput.value);
+    if (currentQuantity > 0) {
         quantityInput.value = currentQuantity - 1;
         var p = document.getElementById("Alert_save");
         p.classList.remove("d-none");
-      }
     }
-    
   }
 </script>

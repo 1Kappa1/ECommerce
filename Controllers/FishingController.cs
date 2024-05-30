@@ -125,52 +125,72 @@ namespace capanna.alessandro._5H.prenota.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("Nome,Descrizione,Prezzo,Img")] Fishing fishing)
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(string? id, [Bind("Nome,Descrizione,Prezzo,Img")] Fishing fishing)
+{
+    if (id == null || fishing == null || id != fishing.Nome)
+    {
+        return BadRequest();
+    }
+
+    var existingFishing = await _context.Oggetti.FirstOrDefaultAsync(f => f.Nome == id);
+    if (existingFishing == null)
+    {
+        return NotFound();
+    }
+
+    try
+    {
+        Console.WriteLine($"FileUpload is null: {FileUpload == null}");
+        Console.WriteLine($"FileUpload length: {FileUpload?.Length ?? 0}");
+
+        // Check if FileUpload is not null before using it
+        if (FileUpload != null && FileUpload.Length > 0)
         {
-            try
+            // Save the file to a specific folder
+            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            if (!Directory.Exists(folderPath))
             {
-                Console.WriteLine($"FileUpload is null: {FileUpload == null}");
-                Console.WriteLine($"FileUpload length: {FileUpload?.Length ?? 0}");
-                // Check if FileUpload is not null before using it
-                if (FileUpload != null && FileUpload.Length > 0)
-                {
-                    // Save the file to a specific folder
-                    string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-                    if (!Directory.Exists(folderPath))
-                    {
-                        Directory.CreateDirectory(folderPath);
-                    }
-                    string filePath = Path.Combine(folderPath, FileUpload.FileName);
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await FileUpload.CopyToAsync(stream);
-                        }
-                 
-                    // Save the file name and extension to the database
-                    string fileName = FileUpload.FileName;
-
-                    fishing.Img = fileName;
-                    Console.WriteLine(fishing.Img);
-                }
-
-                _context.Update(fishing);
-                await _context.SaveChangesAsync();
-                Console.WriteLine("Changes saved successfully.");
+                Directory.CreateDirectory(folderPath);
             }
-            catch (DbUpdateConcurrencyException)
+            string filePath = Path.Combine(folderPath, FileUpload.FileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                if (!FishingExists(fishing.Nome))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await FileUpload.CopyToAsync(stream);
             }
-            return RedirectToAction(nameof(Index));
+
+            // Save the file name and extension to the database
+            string fileName = FileUpload.FileName;
+            existingFishing.Img = fileName;
+            Console.WriteLine(existingFishing.Img);
         }
+        else
+        {
+            // Retain the existing image if no new file is uploaded
+            existingFishing.Img = existingFishing.Img;
+            fishing.Img = existingFishing.Img;
+        }
+
+            // Update other properties of the existing entity
+        existingFishing.Descrizione = fishing.Descrizione;
+        existingFishing.Prezzo = fishing.Prezzo;
+        _context.Update(existingFishing);
+        await _context.SaveChangesAsync();
+        Console.WriteLine("Changes saved successfully.");
+    }
+    catch (DbUpdateConcurrencyException)
+    {
+        if (!FishingExists(fishing.Nome))
+        {
+            return NotFound();
+        }
+        else
+        {
+            throw;
+        }
+    }
+    return RedirectToAction(nameof(Index));
+}
 
         // GET: Fishing/Delete/5
         public async Task<IActionResult> Delete(string? id)

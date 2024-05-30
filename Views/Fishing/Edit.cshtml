@@ -5,7 +5,8 @@
 }
 
 <h1>Modifica</h1>
-
+<h3 style="color: darkred;">The name of the item can not be changed!</h3>
+<h5>If you want to change the name, delete the item and re-create it</h5>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -29,7 +30,8 @@
             </div>
             <div class="form-group">
                 <label for="fileUpload" class="form-label">Select a file to upload:</label>
-                <input type="file" class="form-control" id="fileUpload" name="fileUpload" />
+                <input type="file" class="form-control" id="fileUpload" name="fileUpload"/>
+                <input type="hidden" id="defaultImagePath" name="defaultImagePath" value="@Model.Img">
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
